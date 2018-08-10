@@ -1,0 +1,25 @@
+{
+  "name": "pack-it-in",
+  "version": "0.0.0",
+  "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevRocky/pack-it-in.git"
+  },
+  "keywords": [
+    "package",
+    "licence",
+    "legal",
+    "analysis"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RevRocky/pack-it-in/issues"
+  },
+  "homepage": "https://github.com/RevRocky/pack-it-in#readme"
+}
