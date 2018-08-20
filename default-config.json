@@ -1,0 +1,58 @@
+{   
+    "outputFile": "./ges_pack_spec.xlsx",
+    "license": {
+        "profile": "Most Permissive",
+        "whiteList": [],
+        "exceptions": [],
+        "alternateLocations": []
+
+    },
+
+    "cryptography": {
+        "enable": false,
+        "packageList": [],
+        "exceptions": []
+    },
+    "analyseBuildTools": true,
+    "targetDirectories": [
+       {
+           "name": "My Project",
+           "parentDirectory": ".",
+           "isProject": true,
+           "hasPackage": true,
+           "isDev": true,
+           "userDefinedDependency": false,
+           "ignore": []
+       }
+    ],
+
+ 
+    "reportFields": [
+        { 
+            "columnTitle": "Software Name/Version",
+            "variableValue": "nameVersion"
+        },
+        {
+            "columnTitle": "Description",
+            "variableValue": "description"
+        },
+        {
+            "columnTitle": "License and Version",
+            "variableValue": "preferredLicence"
+        },
+        {
+            "columnTitle": "Additional Licenses",
+            "variableValue": "aditionalLicence"
+        },
+        {
+            "columnTitle": "Software/License Location",
+            "variableValue": "url"
+        },
+        {
+            "columnTitle": "Author",
+            "variableValue": "author"
+        }
+    ],
+
+    "ignoreDirectories": [".bin", ".cache"]
+}

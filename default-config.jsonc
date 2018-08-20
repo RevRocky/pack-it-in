@@ -1,0 +1,192 @@
+{   
+
+    // Path to the file where the report will be published
+    "outputFile": "./ges_pack_spec.xlsx",
+
+    /*
+     * Contains information over the types of licenses the user wishes to permit
+     * with in their project.
+     */
+    "license": {
+
+        /*
+         * Your profile dictates the basic types of licenses that the user would wish to 
+         * permit. Profiles are defined within profiles.jsonc
+         */
+        "profile": "Most Permissive",
+
+        /*
+         * One can define an additional white list of licences that they wish to allow
+         * even if said license type is not a part of the profile.
+         */
+        "whiteList": [],
+
+        /*
+         * A list of packages for which you wish to make an explicit exception to the white 
+         * lists you have defined. Each element in this list should be in the form
+         * package/license. For example having jszip/GPL-3.0 as an item will mean that 
+         * for jszip and ONLY jszip, you are willing to ignore the GPL-3.0 license.
+         */
+        "exceptions": [],
+
+        /*
+         * Unfortunately, not all licenses are contained within a nice LICENSE.TXT file. In 
+         * this case, you can supply what ever license information you've (manually, for the time being), 
+         * managed to scrape from the license file (where ever she be found). If populated, this list will 
+         * be a list of lists. An entry in the list would be like ["path/to/LICENSE-DOC", ["LIC1", "LIC2"]]
+         * where LIC1 and LIC2 are types of licenses like MIT or Apache 2.0.
+         */
+        "alternateLocations": []
+
+    },
+
+    /*
+     * Since many projects may place stricter requirements on utilising software that does
+     * cryptography, pack-it-in allows for these packages to be treated with extra scrutiny.
+     * 
+     * By default, this feature is disabled but when enabled, checking cryptography related
+     * packages will be an extra part of the verification pipeline. 
+     */
+    "cryptography": {
+
+        // Straightforward: This is whether cryptography checking is enabled
+        "enable": false,
+
+        // A list of packages which do infact contain encryption related functionality
+        // but are deemed by your team to be safe. 
+        "packageList": [],
+
+        // These are packages which have crypt in the name or description but, in fact, 
+        // contain no crtptography related functionality. 
+        "exceptions": []
+    },
+
+    // Whether or not we analyse NPM and the other build tools used for the project
+    "analyseBuildTools": true,
+
+    /*
+     * Defines the directories where package.json files are able to be found.
+     * By default, pack-it-in will only check the directory in which it is run but, 
+     * one can change the parent directory to either be a relative or absolute path.
+     *
+     * It is also possible, for larger projects, to specify multiple locations to perform
+     * verification. This could be useful in cases where you have a full-stack application
+     * where 3rd party components for the front end and backend are found in different locations. 
+     */
+    "targetDirectories": [
+       {
+           // Name of the project, duh.
+           "name": "My Project",
+
+           // Location of the package.json
+           "parentDirectory": ".",
+
+           /*
+            * This controlls whether or not the target can be thought of as a project in its' own right.
+            * An example of when something may not be a project is when analysing the software used by 
+            *  NPM and other build tools (which pack-it-in does by default).
+            */
+           "isProject": true,
+
+           /*
+            * This is set to true if the package provided has a package.json to consult.
+            * While for most modern stacks, this will always be set to true, the developers
+            * of pack-it-in are all too familiar of working with stacks that do not utilise
+            * the latest and greatest.
+            *
+            * As a result, if set to false, one can define an alternate JSON file where license information
+            * for a project can be defined. It will be up to the user to compile this 
+            * information on a case by case basis.
+            *
+            * If set to false and no additional package is provided, pack-it-in will simply ignore
+            * the project.
+            */
+           "hasPackage": true,
+
+           // Identifies if the project is to be treated, by default as a 
+           // development (and not runtime) dependency.
+           "isDev": true,
+
+           /*
+            * If you wish to have a user defined file where you detail 
+            * information about a package's dependencies you can replace
+            * this false with a path-string to the JSON file you have dependency
+            * information within.
+            * 
+            * If you do not have user defiened dependency information, you can 
+            * simply leave this field out. The programme will understand.
+            * 
+            * (JK. It will silently judge you. The way all computers do...)
+            *
+            * Should you choose to have a user defined dependency file, the file should be structured 
+            * like so: 
+            * 
+            * {
+            *   "dependencies":
+            *       [
+            *           ["dependencyOne", {
+            *               // Any information can go here
+            *           }],
+            *            ["dependencyTwo", {
+            *               // Any information can go here
+            *           }],
+            *           etc. etc. etc.
+            *       ]
+            * }
+            */
+           "userDefinedDependency": false,
+
+           // List of packages to ignore within a given project.
+           "ignore": [],
+       }
+    ],
+
+    /*
+     * Defines the fields to be included within the report.   
+     *
+     * These objects consist of two fields:
+     *      "columnTitle" - The title of the column
+     * 
+     * The second field is one of:
+     *      "variableValue" - The field of license information we wish to list
+     *      "defaultValue" (Not showcased here) A constant value that is filled for every software.
+     *          You may wish to do something like 
+     *      {
+     *          "columnTitle": "Approver",
+     *          "defaultValue": "Mark Simms"    
+     *      }
+     *
+     *      To list yourself as the person who "signs off" on a software's suitability 
+     *      for inclusion.
+     * 
+     */
+    "reportFields": [
+        { 
+            "columnTitle": "Software Name/Version",
+            "variableValue": "nameVersion"
+        },
+        {
+            "columnTitle": "Description",
+            "variableValue": "description"
+        },
+        {
+            "columnTitle": "License and Version",
+            "variableValue": "preferredLicence"
+        },
+        {
+            "columnTitle": "Additional Licenses",
+            "variableValue": "aditionalLicence"
+        },
+        {
+            "columnTitle": "Software/License Location",
+            "variableValue": "url"
+        },
+        {
+            "columnTitle": "Author",
+            "variableValue": "author"
+        },
+    ],
+
+    // Directories to ignore in the file systgem crawl.
+    "ignoreDirectories": [".bin", ".cache"]
+}
