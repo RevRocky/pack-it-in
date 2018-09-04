@@ -25,11 +25,11 @@ Using pack-it-in
 
 To install pack-it-in, Simply run
 
-[code]npm install -g pack-it-in[/code]
+    npm install -g pack-it-in
 
 To run the programme, using the default configuration, you can simply run:
 
-**[code]npm pack-it-in[/code]**
+    node pack-it-in
 
 This will analyse the project within the current directory, should one exist,
 and output and the excel report to license-details.xlsx which will be located in
@@ -38,11 +38,11 @@ the same directory where you ran pack-it-in.
 If you would like to run the programme using a custom configuration file, one
 can simply run
 
-[code]node pack-it-in -c path/to/config/file.json[/code]
+    node pack-it-in -c path/to/config/file.json
 
 **One can also use the longer option and run**
 
-[code] node pack-it-in - - config=path/to/config/file.json[/code]
+    node pack-it-in - - config=path/to/config/file.json
 
 **Configuration**
 =================
