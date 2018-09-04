@@ -5,9 +5,7 @@ const Validator = require('./validator');
 const ExcelReporter = require('./excel-reporter');
 const ConfigHelper = require('./config-helper');
 
-const fs = require("fs");
 const parseArgs = require("minimist");
-const path = require('path');
 const child_process = require('child_process');
 const {TreeSet} = require("jstreemap");
 

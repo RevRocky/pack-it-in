@@ -1,7 +1,7 @@
 {   
 
     // Path to the file where the report will be published
-    "outputFile": "./ges_pack_spec.xlsx",
+    "outputFile": "./license-details.xlsx",
 
     /*
      * Contains information over the types of licenses the user wishes to permit

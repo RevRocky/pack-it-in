@@ -1,5 +1,5 @@
 {   
-    "outputFile": "./ges_pack_spec.xlsx",
+    "outputFile": "./license-details.xlsx",
     "license": {
         "profile": "Most Permissive",
         "whiteList": [],
