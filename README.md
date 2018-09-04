@@ -1,6 +1,4 @@
----
-title: Pack-it-in
----
+# pack-it-in
 
 *A License Manager for Node.js*
 
