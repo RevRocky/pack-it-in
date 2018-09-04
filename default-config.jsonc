@@ -172,19 +172,19 @@
         },
         {
             "columnTitle": "License and Version",
-            "variableValue": "preferredLicence"
+            "variableValue": "preferredLicense"
         },
         {
             "columnTitle": "Additional Licenses",
-            "variableValue": "aditionalLicence"
+            "variableValue": "aditionalLicense"
         },
         {
             "columnTitle": "Software/License Location",
-            "variableValue": "url"
+            "variableValue": "homepage"
         },
         {
             "columnTitle": "Author",
-            "variableValue": "author"
+            "variableValue": "authorName"
         },
     ],
 

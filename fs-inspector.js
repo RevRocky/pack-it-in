@@ -65,6 +65,8 @@ class FsInspector {
         info.authorName = authorName;
         info.modulePath = modulePath;
         
+        info.nameVersion = `${proj}/${version}`;
+
         if (!info.name) {
             throw new Error(`Information was not collected for module '${moduleName}' at ${modulePath}`)
         }
