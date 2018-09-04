@@ -38,11 +38,11 @@ the same directory where you ran pack-it-in.
 If you would like to run the programme using a custom configuration file, one
 can simply run
 
-[code]npm pack-it-in -c path/to/config/file.json[/code]
+[code]node pack-it-in -c path/to/config/file.json[/code]
 
 **One can also use the longer option and run**
 
-[code] npm pack-it-in - - config=path/to/config/file.json[/code]
+[code] node pack-it-in - - config=path/to/config/file.json[/code]
 
 **Configuration**
 =================
