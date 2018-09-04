@@ -65,7 +65,7 @@ class Validator {
             // TODO: Implement "Silent Mode" Opition where we do not exit when a project does not have a license.
             // If no valid license, throw an error
             if (!isValid) {
-                throw new Error(`Module '${info.name}' is not available with one of your permitted licenses: '${allLicenses}'`);
+                throw new Error(`Module '${info.name}' is not available with one of your permitted licenses`);
             }
 
             info.identifyPreferredLicense(licenseConfig.whiteList);    // Identify the preferred license for a module.

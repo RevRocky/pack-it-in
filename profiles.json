@@ -16,6 +16,7 @@
             "Artistic 2",
             "Artistic2.0",
             "Artistic 2.0",
+            "0BSD",
             "BSD",
             "BSD-2-Clause",
             "BSD-3-Clause",
@@ -48,7 +49,7 @@
 
     ],
 
-    "GP3L-Friendly": {
+    "GPL-Friendly": {
         "includes": [],
 
         "whiteList": [

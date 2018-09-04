@@ -13,7 +13,7 @@
         "packageList": [],
         "exceptions": []
     },
-    "analyseBuildTools": true,
+    "analyseBuildTools": false,
     "targetDirectories": [
        {
            "name": "My Project",

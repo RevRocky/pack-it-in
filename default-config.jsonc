@@ -62,7 +62,8 @@
     },
 
     // Whether or not we analyse NPM and the other build tools used for the project
-    "analyseBuildTools": true,
+    // Typically you'd like this set to false.
+    "analyseBuildTools": false,
 
     /*
      * Defines the directories where package.json files are able to be found.

@@ -72,7 +72,7 @@ function loadLicenseProfile(licenseConfig) {
     // The white list in license config will, most of the time be smaller so this is a more
     // efficient way then doing pushing in place.
     profileWhiteList.push(...licenseConfig.whiteList);
-    licneseConfig.whiteList = profileWhiteList;
+    licenseConfig.whiteList = profileWhiteList;
     
 
     // No need to return. Object has been modified in place
