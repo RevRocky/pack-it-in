@@ -9,7 +9,7 @@ class DependencyInfo {
         this.description = '';
         this.license = '';
         this.hasApacheLicense = false;
-        this.hasCrypto = false;
+        this.hasCrypto = 'N';
         this.url = '';
         this.author = '';
         this.bundled = new TreeMap();

@@ -81,7 +81,7 @@ class Validator {
         for (let [name, version, info] of DependencyInfo.forEach(infos)) {
             if (info.description.includes('crypt') || info.name.includes('crypt')) {
                 if (cryptographyConfig.packageList.has(info.name)) {
-                    info.hasCrypto = true;
+                    info.hasCrypto = 'Y';
                 }
                 else if (cryptographyConfig.exceptions.has(info.name)) {
                     // do nothing
