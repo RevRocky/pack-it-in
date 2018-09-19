@@ -48,7 +48,7 @@ class FsInspector {
         else if (( descriptor.repository && descriptor.repository.url.includes("github"))) {
             return descriptor.repository.url.split('/')[3];
         }
-        else if (descriptor["_resolved"]) {q
+        else if (descriptor["_resolved"]) {
             // We really do not know how to handle it for the time being
             return descriptor["_resolved"].split('/')[3];
         }
