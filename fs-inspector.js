@@ -11,13 +11,61 @@ class FsInspector {
     // Processing for when we have a standard package.json
 
     /**
+     * Scans what is known about a package to determine who the author of the package is.
+     * The order of precidence for authorship is as follows:
+     *      1) Author defined in the package.json file
+     *      2) Contributors as defined in the package.json file. 
+     *          NOTE: In instances where there are more than three contributors, only the first three are listed.
+     *      3) If the package is hosted on Github, the username of the host will be used
+     *      4) Authorship is assigned to the username of the account on npm that manages the package.
+     *      
+     * 
+     * @param {object} descriptor The package descriptor object. Everything one would hope to know about a package.
+     * 
+     * @returns The author of the project, as determined by the rules above.
+     */
+    static getPackageAuthors(descriptor) {
+        if (descriptor.author && descriptor.author.name) {
+            return descriptor.author.name;
+        }
+        else if (descriptor.contributors) {
+            // Somewhat arbitrary, I guess
+            let contributors;
+            
+            if (descriptor.contributors.length > 3) {
+                contributors = descriptor.contributors.slice(0, 3).map(contributor => contributor.name);
+            }
+            else {
+                contributors = descriptor.contributors.map(contributor => contributor.name);
+            }
+
+            return contributors.join(", ")
+        }
+        // Parse Github if nothing else
+        else if ((descriptor.homepage && descriptor.homepage.includes("github"))) {
+            return descriptor.homepage.split('/')[3];
+        }
+        else if (( descriptor.repository && descriptor.repository.url.includes("github"))) {
+            return descriptor.repository.url.split('/')[3];
+        }
+        else if (descriptor["_resolved"]) {q
+            // We really do not know how to handle it for the time being
+            return descriptor["_resolved"].split('/')[3];
+        }
+        else {
+            console.log(descriptor);
+            return '';
+        } 
+    }
+    
+    /**
      * Processes the information of a single module on our crawl through the file system.
      * 
      * @param {string} parentName Name of the project/sub-project being analysed
      * @param {string} moduleName Name of the module being analysed.
      * @param {string} modulePath Path to the module being analysed
      * @param {array} ignoreFiles List of modules to ignore for a particular project
-     * @param {*} map The TreeMap where we store information related to a module.
+     * @param {TreeMap} map The TreeMap where we store information related to a module.
      */
     static processModule(parentName, moduleName, modulePath, ignoreFiles, map) {
         let packagePath = `${modulePath}/package.json`;
@@ -51,12 +99,10 @@ class FsInspector {
         }
         let description = descriptor.description || '';
         let homepage = descriptor.homepage || '';
-        let authorName = '';
+        let authorName = this.getPackageAuthors(descriptor);
         
-        if (descriptor.author && descriptor.author.name) {
-            authorName = descriptor.author.name;
-        
-        }
+
+
         info.name = proj;
         info.version = version;
         info.description = description;
@@ -198,6 +244,7 @@ class FsInspector {
             }
         }
     }
+
 
 
 
