@@ -53,7 +53,6 @@ class FsInspector {
             return descriptor["_resolved"].split('/')[3];
         }
         else {
-            console.log(descriptor);
             return '';
         } 
     }
