@@ -76,7 +76,7 @@
      */
     "targetDirectories": [
        {
-           // Name of the project, duh.
+           // Name of the project....
            "name": "My Project",
 
            // Location of the package.json
@@ -104,8 +104,9 @@
             */
            "hasPackage": true,
 
-           // Identifies if the project is to be treated, by default as a 
-           // development (and not runtime) dependency.
+           // In the case where no package.json is defined, and the user is instead using a custom-defined
+           // package.json, this will allow the user to decide (on the scale of the subproject) whether modules
+           // belonging to the project are to be treated as dev dependencies or not.
            "isDev": true,
 
            /*
