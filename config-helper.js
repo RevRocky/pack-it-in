@@ -147,6 +147,16 @@ function getIgnoreDirectories() {
     return archivedConfig.ignoreDirectories;
 }
 
+/**
+ * 
+ * @param {string} projectName The name of the project we want to know if we're to ignore dev dependencies for
+ * 
+ * @return {boolean} Whether we're to ignore dev dependencies for a project.
+ */
+function getIgnoreDevDependencies(projectName) {
+    return archivedConfig.targetDirectories.filter(project => projectName === project.name)[0].ignoreDevDependencies;
+}
+
 module.exports = {
     loadConfig: loadConfig,
     getLicense: getLicense,
@@ -155,5 +165,6 @@ module.exports = {
     getCryptography: getCryptography,
     getTargetDirectories: getTargetDirectories,
     getReportFields: getReportFields,
-    getIgnoreDirectories: getIgnoreDirectories
+    getIgnoreDirectories: getIgnoreDirectories,
+    getIgnoreDevDependencies: getIgnoreDevDependencies
 }

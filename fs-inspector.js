@@ -94,14 +94,12 @@ class FsInspector {
         
         if (license && license.type) {
             license = license.type;
-        
         }
+        
         let description = descriptor.description || '';
         let homepage = descriptor.homepage || '';
         let authorName = this.getPackageAuthors(descriptor);
         
-
-
         info.name = proj;
         info.version = version;
         info.description = description;

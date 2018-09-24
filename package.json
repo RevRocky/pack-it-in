@@ -19,13 +19,16 @@
     "xlsx": "^0.13.1",
     "xregexp": "^4.2.0"
   },
+  "devDependencies": {
+    "should": "^13.2.3"
+  },
   "homepage": "https://github.com/RevRocky/pack-it-in#readme",
   "keywords": [
-      "package",
-      "license",
-      "licence",
-      "legal",
-      "report",
-      "analysis"
+    "package",
+    "license",
+    "licence",
+    "legal",
+    "report",
+    "analysis"
   ]
 }

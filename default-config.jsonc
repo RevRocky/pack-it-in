@@ -137,8 +137,18 @@
             */
            "userDefinedDependency": false,
 
+           /*
+            * In addition to being able to isolate specific packages, one can also ignore "devDependencies" on a sub-project
+            * by sub-project basis. If this is the case, the second excel sheet will not contain any of the devDependencies
+            * within said project.
+            */
+            "ignoreDevDependencies": false,
+
+
            // List of packages to ignore within a given project.
            "ignore": [],
+
+
        }
     ],
 

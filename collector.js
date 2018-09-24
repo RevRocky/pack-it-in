@@ -3,6 +3,7 @@
 const DependencyInfo = require('./dependency-info');
 const LockParser = require('./lock-parser');
 const FsInspector = require('./fs-inspector');
+const ConfigHelper = require('./config-helper');
 
 const fs = require("fs");
 const {TreeMap, TreeSet} = require('jstreemap');
@@ -44,6 +45,30 @@ class Collector {
         return [projInfos, devInfos];
     }
 
+    /**
+     * Purges all information pertaining to the dev dependencies from our collection of dependency information.
+     * Note: This function will only be called if the user has elected to ignoreDevDependencies for a given project.
+     * Otherwise, the information about dev dependencies will be maintained and, per usual, written out to the second
+     * of the excel spreadsheets.
+     * 
+     * @param {TreeMap} topFileInfos The collection of all file information for the project.
+     */
+    purgeDevDependencies(topFileInfos) {
+        
+        for (const topModuleInfo of topFileInfos) {             // For each module in the project
+            for (const versionInfo of topModuleInfo[1]) {       // For each version of the module within the project
+                if (versionInfo[1].dev) {                       // If it's a dev dependency, delete it.
+                    topModuleInfo[1].delete(versionInfo[0]);
+                }
+            }
+        
+            // Check to see if there are aby versions left to speak of...
+            if (topModuleInfo[1].size === 0) {
+                topFileInfos.delete(topModuleInfo[0]);
+            }
+        }
+    }
+
     run() {
         let topFileInfos = new TreeMap();
         let modulesPath = this.project.parentDirectory;
@@ -78,6 +103,10 @@ class Collector {
                 }
             }
         }
+        if (ConfigHelper.getIgnoreDevDependencies(this.project.name)) {
+            this.purgeDevDependencies(topFileInfos);
+        }
+
         this.flattenInfos(topFileInfos, this.infos);
     }
 };
