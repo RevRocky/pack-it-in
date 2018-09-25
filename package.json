@@ -1,8 +1,9 @@
 {
   "name": "pack-it-in",
-  "version": "0.0.2b",
+  "version": "0.0.2d",
   "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications.",
   "main": "./main.js",
+  "bin": "./main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
