@@ -59,6 +59,7 @@ function main() {
             isProject: false,
             hasPackage: false,
             isDev: true,
+            ignoreDevDependencies: false,   // It would be silly since these are all dev dependencies
             ignore: new TreeSet()
         }
         processProject(project, totalCollector);

@@ -103,7 +103,7 @@ class Collector {
                 }
             }
         }
-        if (ConfigHelper.getIgnoreDevDependencies(this.project.name)) {
+        if (this.project.ignoreDevDependencies) {
             this.purgeDevDependencies(topFileInfos);
         }
 

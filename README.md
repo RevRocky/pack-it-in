@@ -71,6 +71,8 @@ option does and how one can customise the functionality of pack-it-in to their
 own needs. As the project grows, default-config.jsonc will grow so that it
 remains fully accurate.
 
+A link to this default config file can be found ["HERE"](https://github.com/RevRocky/pack-it-in/blob/master/default-config.jsonc)
+
 Contributing
 ============
 

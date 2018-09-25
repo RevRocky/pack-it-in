@@ -1,6 +1,6 @@
 {
   "name": "pack-it-in",
-  "version": "0.0.2e",
+  "version": "0.0.2f",
   "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications.",
   "main": "./main.js",
   "bin": "./main.js",
