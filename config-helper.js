@@ -26,7 +26,6 @@ function loadConfig(pathToConfigFile) {
     if (pathToConfigFile) {
         try {
             let userConfig = fs.readFileSync(pathToConfigFile);
-            process.chdir(path.dirname(pathToConfigFile));   // Change our working directory to the path to the config file. We assume we are working local to that file. 
             userConfig = JSON.parse(userConfig);        // Parse that bad boy
 
             // Overwrite field from the default config with the one in user config.
