@@ -5,6 +5,7 @@ const defaultConfig = require('./default-config.json');
 const profiles = require('./profiles.json')
 const {TreeMap, TreeSet} = require("jstreemap");
 const fs = require("fs");
+const path = require("path");
 
 var archivedConfig;     // Assigned to the module scope, so I'm okay with this.
 
@@ -24,7 +25,8 @@ function loadConfig(pathToConfigFile) {
     // If the user has provided a config file, load that one and overwrite anything within config. 
     if (pathToConfigFile) {
         try {
-            let userConfig = fs.readFileSync(pathToConfigFile); 
+            let userConfig = fs.readFileSync(pathToConfigFile);
+            process.chdir(path.dirname(pathToConfigFile));   // Change our working directory to the path to the config file. We assume we are working local to that file. 
             userConfig = JSON.parse(userConfig);        // Parse that bad boy
 
             // Overwrite field from the default config with the one in user config.
@@ -33,7 +35,7 @@ function loadConfig(pathToConfigFile) {
             }
         }
         catch (err) {
-            process.stderr.write(`Provided Config File: ${userConfig} does not exist or is not valid JSON\n`);
+            process.stderr.write(`Provided Config File: ${pathToConfigFile} does not exist or is not valid JSON\n`);
             console.log("Using Default Configuration Only");
         }
     }

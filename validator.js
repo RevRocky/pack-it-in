@@ -3,6 +3,7 @@
 const {TreeSet, TreeMap} = require('jstreemap');
 const DependencyInfo = require('./dependency-info');
 
+
 class Validator {
 
     /**
@@ -62,8 +63,9 @@ class Validator {
 
             }
 
-            // TODO: Implement "Silent Mode" Opition where we do not exit when a project does not have a license.
-            // If no valid license, throw an error
+            // TODO: Implement "Silent Mode" Opition where we do not exit when a project does not have a license and instead
+            // place into a file.
+            // Include the parent module for easier location of the module.
             if (!isValid) {
                 throw new Error(`Module '${info.name}' is not available with one of your permitted licenses`);
             }
