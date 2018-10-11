@@ -1,9 +1,10 @@
 {
   "name": "pack-it-in",
-  "version": "0.0.2h",
+  "version": "0.0.2i",
   "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications.",
   "main": "./main.js",
   "bin": "./main.js",
+  "contributors": ["Kirusi (http://github.com/kirusi)", "Rocky Petkov <rocky.petkov@yandex.com> (http://github.com/revrocky)"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
