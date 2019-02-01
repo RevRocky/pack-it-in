@@ -22,17 +22,10 @@ class Validator {
             let lic = info.license;
             if ((typeof lic) === 'string') {
                 lic = lic.replace(/[\\(\\)\\=]/g, '');
+                lic = lic.replace(/ ((((a|A)(n|N)(d|D))|((o|O)(r|R)))) /, ",");                   // Replace Or/And with a ','
+
                 let licenses = [lic];
                 
-                let licStandardCase = lic.toUpperCase(); 
-
-                // Get all licenses into one easy to read list.
-                if (licStandardCase.includes(' OR ')) {
-                    licenses = lic.split(' OR ');
-                }
-                if (licStandardCase.includes(' AND ')) {
-                    licenses = lic.split(' AND ');
-                }
                 if (lic.includes('/')) {
                     licenses = lic.split('/');
                 }
