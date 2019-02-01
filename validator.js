@@ -24,11 +24,13 @@ class Validator {
                 lic = lic.replace(/[\\(\\)\\=]/g, '');
                 let licenses = [lic];
                 
+                let licStandardCase = lic.toUpperCase(); 
+
                 // Get all licenses into one easy to read list.
-                if (lic.includes(' OR ')) {
+                if (licStandardCase.includes(' OR ')) {
                     licenses = lic.split(' OR ');
                 }
-                if (lic.includes(' AND ')) {
+                if (licStandardCase.includes(' AND ')) {
                     licenses = lic.split(' AND ');
                 }
                 if (lic.includes('/')) {
@@ -67,7 +69,7 @@ class Validator {
             // place into a file.
             // Include the parent module for easier location of the module.
             if (!isValid) {
-                throw new Error(`Module '${info.name}' is not available with one of your permitted licenses`);
+                throw new Error(`Module '${info.name}' is not available with one of your permitted licenses. Only available with ${info.license}`);
             }
 
             info.identifyPreferredLicense(licenseConfig.whiteList);    // Identify the preferred license for a module.
