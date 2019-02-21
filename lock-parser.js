@@ -35,10 +35,21 @@ class LockParser {
     }
 
     processLockFile() {
-        let contents = fs.readFileSync(`${this.path}/package-lock.json`);
-        let lockContents = JSON.parse(contents);
-        let topDeps = lockContents.dependencies;
-        this.validateLockDependencies(topDeps, this.topFileInfos, false, false);
+        let contents;
+
+        // First choice is to read the more modern package-lock, second choice is to read
+        // a shrinkwrapped file.
+        try {
+            contents = fs.readFileSync(`${this.path}/package-lock.json`);
+        }
+        catch (err) {
+            contents = fs.readFileSync(`${this.path}/npm-shrinkwrap.json`);
+        }
+        finally {
+            let lockContents = JSON.parse(contents);
+            let topDeps = lockContents.dependencies;
+            this.validateLockDependencies(topDeps, this.topFileInfos, false, false);
+        }
     }
 }
 
