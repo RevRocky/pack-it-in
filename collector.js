@@ -57,7 +57,7 @@ class Collector {
         
         for (const topModuleInfo of topFileInfos) {             // For each module in the project
             for (const versionInfo of topModuleInfo[1]) {       // For each version of the module within the project
-                if (versionInfo[1].dev) {                       // If it's a dev dependency, delete it.
+                if (versionInfo[1].dev && !versionInfo[1].mandatory) {     // If it's just a dev dependency, delete it.
                     topModuleInfo[1].delete(versionInfo[0]);
                 }
             }
