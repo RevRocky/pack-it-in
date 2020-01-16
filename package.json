@@ -4,7 +4,10 @@
   "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications.",
   "main": "./main.js",
   "bin": "./main.js",
-  "contributors": ["Kirusi (http://github.com/kirusi)", "Rocky Petkov <rocky.petkov@yandex.com> (http://github.com/revrocky)"],
+  "contributors": [
+    "Kirusi (http://github.com/kirusi)",
+    "Rocky Petkov <rocky.petkov@yandex.com> (http://github.com/revrocky)"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,6 +21,7 @@
     "glob": "^7.1.2",
     "jstreemap": "^1.24.1",
     "minimist": "^1.2.0",
+    "parse-yarn-lock": "0.28.4",
     "xlsx": "^0.13.1",
     "xregexp": "^4.2.0"
   },

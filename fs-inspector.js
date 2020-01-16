@@ -25,18 +25,25 @@ class FsInspector {
      * @returns The author of the project, as determined by the rules above.
      */
     static getPackageAuthors(descriptor) {
-        if (descriptor.author && descriptor.author.name) {
-            return descriptor.author.name;
+        const nameMapper = (author) => {
+            if (author && author.name) {
+                return author.name;
+            }
+            return author;
+        }
+
+        if (descriptor.author) {
+            return nameMapper(descriptor.author);
         }
         else if (descriptor.contributors) {
             // Somewhat arbitrary, I guess
             let contributors;
             
             if (descriptor.contributors.length > 3) {
-                contributors = descriptor.contributors.slice(0, 3).map(contributor => contributor.name);
+                contributors = descriptor.contributors.slice(0, 3).map(nameMapper);
             }
             else {
-                contributors = descriptor.contributors.map(contributor => contributor.name);
+                contributors = descriptor.contributors.map(nameMapper);
             }
 
             return contributors.join(", ")
@@ -45,8 +52,13 @@ class FsInspector {
         else if ((descriptor.homepage && descriptor.homepage.includes("github"))) {
             return descriptor.homepage.split('/')[3];
         }
-        else if (( descriptor.repository && descriptor.repository.url.includes("github"))) {
+        else if ( descriptor.repository && descriptor.repository.url && 
+            (typeof descriptor.repository.url === 'string') && descriptor.repository.url.includes("github")) {
             return descriptor.repository.url.split('/')[3];
+        }
+        else if ( descriptor.repository && 
+            (typeof descriptor.repository === 'string') && descriptor.repository.includes("github")) {
+            return descriptor.repository.split('/')[3];
         }
         else if (descriptor["_resolved"]) {
             // We really do not know how to handle it for the time being
@@ -95,16 +107,33 @@ class FsInspector {
         if (license && license.type) {
             license = license.type;
         }
+
+        if (!license && descriptor.licenses && Array.isArray(descriptor.licenses)) {
+            license = descriptor.licenses.map(lic => {
+                if (typeof lic === 'string') {
+                    return lic;
+                }
+                if (typeof lic.type === 'string') {
+                    return lic.type.replace(', ', ' ').replace(',', ' ');
+                }
+                return '';
+            }).join(',');
+        }
         
         let description = descriptor.description || '';
         let homepage = descriptor.homepage || '';
         let authorName = this.getPackageAuthors(descriptor);
+        let repository = (descriptor.repository && descriptor.repository.url ? descriptor.repository.url : undefined) ||
+                         (descriptor.repository ? descriptor.repository : undefined) || '';
+        let downloadUrl = homepage || repository || '';
         
         info.name = proj;
         info.version = version;
         info.description = description;
         info.license = license;
         info.homepage = homepage;
+        info.repository = repository;
+        info.downloadUrl = downloadUrl;
         info.authorName = authorName;
         info.modulePath = modulePath;
         
