@@ -95,6 +95,7 @@ function convertToTree(config) {
     }
 
     config.ignoreDirectories = new TreeSet(config.ignoreDirectories);
+    config.excludeFromPackSpec = new TreeSet(config.excludeFromPackSpec);
 
     // No need to return, pass by reference
 }
@@ -157,6 +158,14 @@ function getIgnoreDirectories() {
 function getIgnoreDevDependencies(projectName) {
     return archivedConfig.targetDirectories.filter(project => projectName === project.name)[0].ignoreDevDependencies;
 }
+/**
+ * @param {string} dependencyName The name of a dependency that we check whether we are to exclude from the pack-spec document.
+ * 
+ * @return {TreeSet} The set of packages we wish to exclude from the pack-spec document.
+ */
+function getExcludeFromPackSpecSet() {
+    return archivedConfig.excludeFromPackSpec;
+}
 
 module.exports = {
     loadConfig: loadConfig,
@@ -167,5 +176,6 @@ module.exports = {
     getTargetDirectories: getTargetDirectories,
     getReportFields: getReportFields,
     getIgnoreDirectories: getIgnoreDirectories,
-    getIgnoreDevDependencies: getIgnoreDevDependencies
+    getIgnoreDevDependencies: getIgnoreDevDependencies,
+    getExcludeFromPackSpecSet: getExcludeFromPackSpecSet
 }

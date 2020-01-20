@@ -34,8 +34,15 @@ class Collector {
     splitDevInfos() {
         let devInfos = new TreeMap();
         let projInfos = new TreeMap();
+
+        // Get the set of files we wish not to include in the packspec
+        const excludeFromPackSpecSet = ConfigHelper.getExcludeFromPackSpecSet();
+
         for (let [name, version, info] of DependencyInfo.forEach(this.infos)) {
-            if (info.prod) {
+            if (excludeFromPackSpecSet.has(name)) {
+                continue;       // We don't want to report this dependency
+            }
+            else if (info.prod) {
                 DependencyInfo.addInfo(projInfos, info);
             }
             else {
