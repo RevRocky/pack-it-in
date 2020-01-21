@@ -6,3 +6,9 @@
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary
+
+# Workaround for npm changing line endings from CRLF to LF on Windows. Should be fixed in npm 5.8.0.
+# https://github.com/npm/npm/issues/17161#issuecomment-337696678
+# https://github.com/npm/npm/releases/tag/v5.8.0-next.0
+package.json text eol=lf
+package-lock.json text eol=lf
