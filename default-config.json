@@ -55,5 +55,7 @@
         }
     ],
 
-    "ignoreDirectories": [".bin", ".cache"]
+    "ignoreDirectories": [".bin", ".cache"],
+
+    "excludeFromPackSpec": []
 }

@@ -147,9 +147,7 @@
 
 
            // List of packages to ignore within a given project.
-           "ignore": [],
-
-
+           "ignore": []
        }
     ],
 
@@ -200,5 +198,12 @@
     ],
 
     // Directories to ignore in the file systgem crawl.
-    "ignoreDirectories": [".bin", ".cache"]
+    "ignoreDirectories": [".bin", ".cache"],
+
+    /*
+     * List of packages we wish to analyse the dependencies of but to exclude from the pack-spec document.
+     * You may wish to use this feature if there is first party software that is picked up by the scan but, 
+     * don't want it included in the report
+     */
+    "excludeFromPackSpec": []
 }
