@@ -104,6 +104,18 @@
             */
            "hasPackage": true,
 
+           /*
+            * The self defined JSON (referenced above) can also include dependency information for non JS projects
+            * that you wish to have included within the Pack-Spec document. 
+            * 
+            * In these cases, the user defined JSON will be read but no attempts will be made to conduct a further 
+            * exploration of the file system. Set to fa
+            * 
+            * This option will only be consulted if "hasPackage" is set to false AND a user supplied package.json is 
+            * given. Set this option to true if the user-supplied package.json includes non JS modules.
+            */
+            "includesNonJSModules": false,
+
            // In the case where no package.json is defined, and the user is instead using a custom-defined
            // package.json, this will allow the user to decide (on the scale of the subproject) whether modules
            // belonging to the project are to be treated as dev dependencies or not.
@@ -194,7 +206,7 @@
         {
             "columnTitle": "Author",
             "variableValue": "authorName"
-        },
+        }
     ],
 
     // Directories to ignore in the file systgem crawl.

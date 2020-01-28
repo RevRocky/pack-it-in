@@ -22,6 +22,7 @@
            "hasPackage": true,
            "isDev": true,
            "userDefinedDependency": false,
+           "includesNonJSModules": false,
            "ignoreDevDependencies": false,
            "ignore": []
        }

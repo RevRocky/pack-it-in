@@ -271,6 +271,32 @@ class FsInspector {
         }
     }
 
+    /**
+     * Processes modules defined in a user-supplied package.json where we don't wish to do any crawling of the 
+     * file system. This will be called when a project has the "includesNonJSModules" flag is set to true.  
+     * 
+     * @param {TreeMap} map A tree map we build containing each of the module's information.
+     * @param {TreeMap} userDefinedPackage The user's self defined package information.
+     */
+    static processNonJSModules(map, userDefinedPackage) {
+        let collectedInfo;
+        for (let [dependency, rawInfo] of userDefinedPackage) {
+            collectedInfo = new DependencyInfo();
+
+            // Grab each 
+            for (let key in rawInfo) {
+                collectedInfo[key] = rawInfo[key];
+            }
+
+            // Check if we read the name at bare minimum
+            if (!collectedInfo.name) {
+                throw new Error(`Information was not collected for module '${dependency}' at ${modulePath}`);
+            }
+
+            DependencyInfo.addInfo(map, collectedInfo);  // Add the information to the map
+        }
+    }
+
 
 
 

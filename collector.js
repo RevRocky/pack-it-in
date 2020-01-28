@@ -85,12 +85,19 @@ class Collector {
             modulesPath = `${this.project.parentDirectory}/node_modules`
         }
         if (this.project.userDefinedDependency) {
+
+            // Read the user defined dependency info from the disk.
             let dependencyInfo = fs.readFileSync(this.project.userDefinedDependency);
             dependencyInfo = JSON.parse(dependencyInfo);
-
             dependencyInfo = new TreeMap(dependencyInfo.dependencies);
 
-            FsInspector.processUserDefinedDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos, dependencyInfo);
+            if (this.project.includesNonJSModules) {
+                FsInspector.processNonJSModules(topFileInfos, dependencyInfo);
+            }
+            else {    
+                // We can assume that the directory supplied follows the rough contours of a node js package maintained with NPM or Yarn
+                FsInspector.processUserDefinedDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos, dependencyInfo);
+            }
         }
         else {
             FsInspector.processDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos);
