@@ -297,9 +297,9 @@ class FsInspector {
                 if (!collectedInfo.name) {
                     throw new Error(`Information was not collected for module '${dependency}' at ${modulePath}`);
                 }
+
+                DependencyInfo.addInfo(map, collectedInfo);  // Add the information to the map
             }
-    
-            DependencyInfo.addInfo(map, collectedInfo);  // Add the information to the map
         }
     }
 
