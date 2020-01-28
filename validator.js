@@ -18,6 +18,9 @@ class Validator {
      * that is permitted for the project in question.
      */
     static reviewLicenses(infos, licenseConfig) {
+
+        const rejectedLicenses = new TreeMap();
+
         for (let [name, version, info] of DependencyInfo.forEach(infos)) {
             let lic = info.license;
             if ((typeof lic) === 'string') {
@@ -62,7 +65,8 @@ class Validator {
             // place into a file.
             // Include the parent module for easier location of the module.
             if (!isValid) {
-                throw new Error(`Module '${info.name}' is not available with one of your permitted licenses. Only available with ${info.license}`);
+                rejectedLicenses.insertOrReplace(name, info.license);
+                continue;           // We don't have a valid license do no more work...
             }
 
             info.identifyPreferredLicense(licenseConfig.whiteList);    // Identify the preferred license for a module.
@@ -72,6 +76,16 @@ class Validator {
             }
 
         } // End For-Each
+
+        if (rejectedLicenses.size) {
+            console.error("\nNo acceptable license could be found for the following dependencies:\n");
+
+            for (const [dependency, license] of rejectedLicenses) {
+                console.error(`\t${dependency} cound only be found with license(s): ${license}`);
+            }
+
+            throw new Error('Not all licenses could be validated against the white list.');
+        }
     }   
 
     static reviewEncryption(infos, cryptographyConfig) {

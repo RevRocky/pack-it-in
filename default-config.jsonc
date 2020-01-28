@@ -25,7 +25,7 @@
          * A list of packages for which you wish to make an explicit exception to the white 
          * lists you have defined. Each element in this list should be in the form
          * package/license. For example having jszip/GPL-3.0 as an item will mean that 
-         * for jszip and ONLY jszip, you are willing to ignore the GPL-3.0 license.
+         * for jszip and ONLY jszip, you are willing to accept the GPL-3.0 license.
          */
         "exceptions": [],
 
