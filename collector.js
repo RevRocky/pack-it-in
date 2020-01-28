@@ -92,7 +92,7 @@ class Collector {
             dependencyInfo = new TreeMap(dependencyInfo.dependencies);
 
             if (this.project.includesNonJSModules) {
-                FsInspector.processNonJSModules(this.project.name, topFileInfos, dependencyInfo);
+                FsInspector.processNonJSModules(this.project.name, this.project.ignore, topFileInfos, dependencyInfo);
             }
             else {    
                 // We can assume that the directory supplied follows the rough contours of a node js package maintained with NPM or Yarn
