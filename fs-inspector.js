@@ -292,6 +292,8 @@ class FsInspector {
                 for (let key in rawInfo) {
                     collectedInfo[key] = rawInfo[key];
                 }
+
+                collectedInfo.nameVersion = `${collectedInfo.name}/${collectedInfo.version}`;
     
                 // Check if we read the name at bare minimum
                 if (!collectedInfo.name) {
