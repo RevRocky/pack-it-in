@@ -1,6 +1,6 @@
 {
   "name": "pack-it-in",
-  "version": "0.0.7a",
+  "version": "0.0.8",
   "description": "Analyses Licences of included NPM packages to ensure that they conform to your specifications.",
   "main": "./main.js",
   "bin": "./main.js",
@@ -21,7 +21,7 @@
     "glob": "^7.1.2",
     "jstreemap": "^1.28.2",
     "minimist": "^1.2.0",
-    "parse-yarn-lock": "0.28.4",
+    "parse-yarn-lock": "^0.28.4",
     "xlsx": "^0.13.1",
     "xregexp": "^4.2.0"
   },

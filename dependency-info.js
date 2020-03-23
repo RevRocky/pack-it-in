@@ -23,6 +23,7 @@ class DependencyInfo {
 
     static addInfo(map, info) {
         let versions;
+        
         if (map.has(info.name)) {
             versions = map.get(info.name);
         }
@@ -30,6 +31,7 @@ class DependencyInfo {
             versions = new TreeMap();
             map.set(info.name, versions);
         }
+
         if (!versions.has(info.version)) {
             versions.set(info.version, info);
         }
@@ -44,6 +46,7 @@ class DependencyInfo {
             versions = new TreeMap();
             map.set(info.name, versions);
         }
+
         if (!versions.has(info.version)) {
             versions.set(info.version, info);
         }
@@ -54,8 +57,12 @@ class DependencyInfo {
             oldInfo.optional = oldInfo.optional || info.optional;
             oldInfo.mandatory = oldInfo.mandatory || info.mandatory;
         }
+
+        return map
     }
 
+
+    
     visit(dev, optional) {
         this.visited = true;
         if (dev) {
@@ -97,6 +104,23 @@ class DependencyInfo {
         this.additionalLicenses = lics.join(', ');
     }
 
+    static generateJson(infos, jsonInfo = []) {
+        for (let [name, version, info] of DependencyInfo.forEach(infos)) {
+            let depInfo = {
+                name: name,
+                version: version,
+                dependencies: []
+            };
+
+            if (info.bundled.size > 0) {
+                DependencyInfo.generateJson(info.bundled, depInfo.dependencies);
+            }
+
+            jsonInfo.push(depInfo);
+        }
+
+        return jsonInfo;
+    }
 
     static *forEach(infos) {
         for (let [name, versions] of infos) {
@@ -114,6 +138,9 @@ class DependencyInfo {
             }
         }
     }
+
+
+    
 }
 
 module.exports = DependencyInfo;

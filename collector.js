@@ -102,13 +102,12 @@ class Collector {
         else {
             FsInspector.processDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos);
         }
-        
         // Processing the package-lock.json files
         if (this.project.hasPackage) {
             let lockParser = new LockParser(this.project.parentDirectory, topFileInfos);
             lockParser.processLockFile();
         } else {
-            for (let [name, version, info] of DependencyInfo.forEach(topFileInfos)) {
+            for (let [name, version, info] of DependencyInfo.forEachRecursively(topFileInfos)) {
                 if (this.project.isDev) {
                     info.dev = true;
                 }
@@ -121,7 +120,7 @@ class Collector {
             this.purgeDevDependencies(topFileInfos);
         }
 
-        this.flattenInfos(topFileInfos, this.infos);
+        topFileInfos = this.flattenInfos(topFileInfos, this.infos);   
     }
 };
 
