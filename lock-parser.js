@@ -135,17 +135,12 @@ class LockParser {
 
     processLockFile() {
         // First choice is to look for yarn.lock...
-        let yarnLockInfo;
-        try {
-            yarnLockInfo = parseYarnLock(fs.readFileSync(`${this.path}/yarn.lock`).toString());
-        }
-        catch(err) {  
-            console.log(err)          
-        }
+        const yarnLockPresent = fs.existsSync(`${this.path}/yarn.lock`);
 
-        if (yarnLockInfo) {
+        if (yarnLockPresent) {
             // Successful, but it does not have all the info required, so need to read package.json 
             // to know where to start from
+            const yarnLockInfo = parseYarnLock(fs.readFileSync().toString());
             const packageInfo = JSON.parse(fs.readFileSync(`${this.path}/package.json`).toString());
 
             this.validatePackageDependencies(packageInfo.dependencies, yarnLockInfo.object, this.topFileInfos, false);
@@ -158,6 +153,7 @@ class LockParser {
             */
         }
         else {
+            // Else we look for either a package lock or a shrinkwrap file.
             let contents;
 
             // Second choice is to read the more modern package-lock, third choice is to read

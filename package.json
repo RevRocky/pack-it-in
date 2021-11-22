@@ -20,9 +20,9 @@
   "dependencies": {
     "glob": "^7.1.2",
     "jstreemap": "^1.28.2",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "parse-yarn-lock": "^0.28.4",
-    "xlsx": "^0.13.1",
+    "xlsx": "^0.17.0",
     "xregexp": "^4.2.0"
   },
   "devDependencies": {
