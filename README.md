@@ -4,7 +4,7 @@ pack-it-in
 *A License Manager for Node.js*
 
 *Overview*
-==========
+========
 
 Pack-it-in is meant to simplify the process of including FOSS in your project by
 analysing the licenses of the software you are including within your project and
@@ -26,15 +26,15 @@ Using pack-it-in
 
 To install pack-it-in, Simply run
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 npm install -g pack-it-in
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 To run the programme, using the default configuration, you can simply run:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 node pack-it-in
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 This will analyse the project within the current directory, should one exist,
 and output and the excel report to license-details.xlsx which will be located in
@@ -51,16 +51,19 @@ dependencies).
 If you would like to run the programme using a custom configuration file, one
 can simply run
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 node pack-it-in -c path/to/config/file.json
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
 **One can also use the longer option and run**
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 node pack-it-in - - config=path/to/config/file.json
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
+**NPM Legacy Mode**
+
+As of version 0.10 pack-it-in supports npmv8 package-lock files. If you are using an older version of NPM you will have to use the --l or --legacy flag. 
 
 Configuration
 =============
@@ -71,7 +74,7 @@ option does and how one can customise the functionality of pack-it-in to their
 own needs. As the project grows, default-config.jsonc will grow so that it
 remains fully accurate.
 
-A link to this default config file can be found ["HERE"](https://github.com/RevRocky/pack-it-in/blob/master/default-config.jsonc)
+A link to this default config file can be found [&#34;HERE&#34;](https://github.com/RevRocky/pack-it-in/blob/master/default-config.jsonc)
 
 Contributing
 ============

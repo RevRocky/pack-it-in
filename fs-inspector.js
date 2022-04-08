@@ -77,15 +77,16 @@ class FsInspector {
      * @param {string} modulePath Path to the module being analysed
      * @param {array} ignoreFiles List of modules to ignore for a particular project
      * @param {TreeMap} map The TreeMap where we store information related to a module.
+     * @param {boolean} legacyMode True if we're parsing a pre npmV8 lock file, false otherwise
+     * 
      */
-    static processModule(parentName, moduleName, modulePath, ignoreFiles, map) {
+    static processModule(parentName, moduleName, modulePath, ignoreFiles, map, legacyMode = false) {
         let packagePath = `${modulePath}/package.json`;
-        let info = new DependencyInfo();
-
+        console.log(packagePath)
+        let info = new DependencyInfo(legacyMode);
         // If the file does not exist, we must check to see if it's a module 
         // we are explicily
-        if (!fs.existsSync(packagePath)) {
-            let key = `${parentName}/${moduleName}`;       
+        if (!fs.existsSync(packagePath)) {      
             
             // Check if the key is in the ignored modules for the project
             if(ignoreFiles.has(key)) {
@@ -148,7 +149,14 @@ class FsInspector {
 
         // Keep crawling into the software used by this piece of software if we can.
         if (fs.existsSync(subModulesPath)) {
-            FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, info.bundled);
+            // NPM v8 does not reproduce the hierarchy in the package.lock the same way..
+            if (legacyMode) {
+                FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, info.bundled, legacyMode);
+            }
+            else {
+                FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, map, legacyMode);
+            }
+            
         }
     }
 
@@ -159,8 +167,9 @@ class FsInspector {
      * @param {string} modulesDir The directory we are currently analysing
      * @param {array} ignoreFiles List of modules to ignore for a particular project
      * @param {TreeMap} map A tree map we build containing each of the module's information.
+     * @param {boolean} legacyMode True if we're parsing a pre npmV8 lock file, false otherwise
      */
-    static processDirectory(parentName, modulesDir, ignoreFiles, map) {
+    static processDirectory(parentName, modulesDir, ignoreFiles, map, legacyMode = false) {
         let files = fs.readdirSync(modulesDir);
         let ignoreDirectories = ConfigHelper.getIgnoreDirectories();
 
@@ -170,12 +179,12 @@ class FsInspector {
                     let modulePath = `${modulesDir}/${fname}`;
                     let fdata = fs.statSync(modulePath);
                     if (fdata.isDirectory()) {
-                        FsInspector.processModule(parentName, fname, modulePath, ignoreFiles, map);
+                        FsInspector.processModule(parentName, fname, modulePath, ignoreFiles, map, legacyMode);
                     }
                 }
                 else {
                     let modulePath = `${modulesDir}/${fname}`;
-                    FsInspector.processDirectory(parentName, modulePath, ignoreFiles, map);
+                    FsInspector.processDirectory(parentName, modulePath, ignoreFiles, map, legacyMode);
                 }
             }
         }
@@ -195,11 +204,12 @@ class FsInspector {
      * @param {Array} ignoreFiles A list of files to not explore 
      * @param {TreeMap} map Where we collect all of our information. 
      * @param {TreeMap} userDefinedPackage A user defined pakage.json like file.
+     * @param {boolean} legacyMode True if we're parsing a pre npmV8 lock file, false otherwise
      */
-    static processUserDefinedModule(parentName, moduleName, modulePath, ignoreFiles, map, userDefinedPackage) {
+    static processUserDefinedModule(parentName, moduleName, modulePath, ignoreFiles, map, userDefinedPackage, legacyMode = false) {
         // Some modules in a user defined package will still have their own information, let us collect this info...
         if (fs.existsSync(`${modulePath}/package.json`)) {
-            this.processModule(parentName, moduleName, modulePath, ignoreFiles, map);
+            this.processModule(parentName, moduleName, modulePath, ignoreFiles, map, legacyMode);
             return;
         }
         // Implicit else
@@ -234,9 +244,16 @@ class FsInspector {
         // Sub modules are assumed to not have user defined package info defined
         let subModulesPath = `${modulePath}/node_modules`;
 
-        // If there is more to, explore, EXPLORE!
+        // Keep crawling into the software used by this piece of software if we can.
         if (fs.existsSync(subModulesPath)) {
-            FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, info.bundled);
+            // NPM v8 does not reproduce the hierarchy in the package.lock the same way..
+            if (legacyMode) {
+                FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, info.bundled, legacyMode);
+            }
+            else {
+                FsInspector.processDirectory(info.name, subModulesPath, ignoreFiles, map, legacyMode);
+            }
+            
         }
     }
 
@@ -248,8 +265,9 @@ class FsInspector {
      * @param {array} ignoreFiles List of modules to ignore for a particular project
      * @param {TreeMap} map A tree map we build containing each of the module's information.
      * @param {TreeMap} userDefinedPackage The user's self defined package information.
+     * @param {boolean} legacyMode True if we're parsing a pre npmV8 lock file, false otherwise
      */
-    static processUserDefinedDirectory(parentName, modulesDir, ignoreFiles, map, userDefinedPackage) {
+    static processUserDefinedDirectory(parentName, modulesDir, ignoreFiles, map, userDefinedPackage, legacyMode = false) {
         let files = fs.readdirSync(modulesDir);
         let ignoreDirectories = ConfigHelper.getIgnoreDirectories();
 
@@ -260,12 +278,12 @@ class FsInspector {
                     let modulePath = `${modulesDir}/${fname}`;
                     let fdata = fs.statSync(modulePath);
                     if (fdata.isDirectory()) {
-                        FsInspector.processUserDefinedModule(parentName, fname, modulePath, ignoreFiles, map, userDefinedPackage)
+                        FsInspector.processUserDefinedModule(parentName, fname, modulePath, ignoreFiles, map, userDefinedPackage, legacyMode)
                     }
                 }
                 else {
                     let modulePath = `${modulesDir}/${fname}`;
-                    FsInspector.processUserDefinedDirectory(parentName, modulePath, ignoreFiles, map, userDefinedPackage);
+                    FsInspector.processUserDefinedDirectory(parentName, modulePath, ignoreFiles, map, userDefinedPackage, legacyMode);
                 }
             }
         }
@@ -279,6 +297,7 @@ class FsInspector {
      * @param {array} ignoreFiles List of modules to ignore for a particular project
      * @param {TreeMap} map A tree map we build containing each of the module's information.
      * @param {TreeMap} userDefinedPackage The user's self defined package information.
+     * @param {boolean} legacyMode True if we're parsing a pre npmV8 lock file, false otherwise
      */
     static processNonJSModules(projectName, ignoreFiles, map, userDefinedPackage) {
         let collectedInfo;

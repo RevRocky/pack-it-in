@@ -18,12 +18,14 @@ class DependencyInfo {
         this.prod = false;
         this.optional = false;
         this.mandatory = false;
-        this.timeProcessed = new Date();      
+        this.timeProcessed = new Date();   
     }
 
     static addInfo(map, info) {
         let versions;
         
+
+
         if (map.has(info.name)) {
             versions = map.get(info.name);
         }

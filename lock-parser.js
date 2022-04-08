@@ -1,33 +1,54 @@
 'use strict';
+const { Console } = require('console');
 const fs = require('fs');
 const parseYarnLock = require('parse-yarn-lock').default;
 
 class LockParser {
-    constructor(path, topFileInfos) {
+    constructor(path, topFileInfos, legacyMode) {
         this.path = path;
         this.topFileInfos = topFileInfos;
+        this.legacyMode = legacyMode
     }
 
     validateLockDependencies(deps, infos, dev, optional) {
-        for (let depName in deps) {
-            if (deps.hasOwnProperty(depName)) {
+        let isDev;
+        let isOptional;
 
+
+        for (let key of infos.keys()) {
+            console.log(key);
+        }
+        console.log("---------")
+        
+        for (let depName in deps) {
+
+            if (depName === '') {
+                continue;
+            }
+            else if (deps.hasOwnProperty(depName)) {
                 let dep = deps[depName];
-                if (!infos.has(depName) && (!(optional || dep.optional))) {
-                    if (!dep.dev) {
-                        throw new Error(`Cannot find mandatory dependency in the file system: '${depName}'`);
+                let depHandle = this.legacyMode ? depName : LockParser.parseDepHandle(depName);
+
+                //console.log(depHandle)
+                isDev = dev || dep.dev || dep.devOptional;
+                isOptional = optional || dep.optional || dep.devOptional;
+
+                if (!infos.has(depHandle) && !isOptional) {
+                    if (!isDev) {
+                        console.log(dep);
+                        throw new Error(`Cannot find mandatory dependency in the file system: '${depHandle}'`);
                     }
                 }
                 else {
-                    let versions = infos.get(depName);
+                    let versions = infos.get(depHandle);
                     if (versions) {
-                        let info = infos.get(depName).first()[1];
-                        if (!info) {
-                            throw new Error(`Cannot find an installed version of dependency: '${depName}'`);
+                        let info = infos.get(depHandle).first()[1];
+                        if (!info && !isOptional) {
+                            throw new Error(`Cannot find an installed version of dependency: '${depHandle}'`);
                         }
-                        info.visit(dev || dep.dev, optional || dep.optional);
-                        if (dep.dependencies) {
-                            this.validateLockDependencies(dep.dependencies, info.bundled, dev || dep.dev, optional || dep.optional);
+                        info.visit(dev || dep.dev, isOptional);
+                        if (this.legacyMode) {
+                            this.validateLockDependencies(dep.dependencies, info.bundled, isDev, isOptional);
                         }
                     }
                 }
@@ -166,10 +187,27 @@ class LockParser {
             }
             finally {
                 let lockContents = JSON.parse(contents);
-                let topDeps = lockContents.dependencies;
+                
+                let topDeps = lockContents.packages ? lockContents.packages : lockContents.dependencies;
                 this.validateLockDependencies(topDeps, this.topFileInfos, false, false);
             }
         }
+    }
+
+    /**
+     * Strips off the filepaths included in the new npmv8 lock files so we just have the module name
+     * @param {string} depName The dependency name. This will include the full file path
+     * @returns {string} A handle that matches what's stored in the file info
+     */
+    static parseDepHandle(depName) {
+        // Usually this will be just be the last part of the file name but some modules are like
+        // @hapi/joi. This is a special case.
+        console.log(depName);
+        const moduleRegex = /@[\w\d\-]*\/[\w\d\-]*$/
+        if (moduleRegex.test(depName)) {
+            return moduleRegex.exec(depName)[0];
+        }
+        return depName.split('/').pop();    // Usually 
     }
 }
 

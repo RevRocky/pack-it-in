@@ -9,8 +9,9 @@ const fs = require("fs");
 const {TreeMap, TreeSet} = require('jstreemap');
 
 class Collector {
-    constructor(project) {
+    constructor(project, legacyMode) {
         this.project = project; // No need to duplicate references.
+        this.legacyMode = legacyMode;     // NPM v8 uses a different package-lock structure. Impacts how we parse File System as well
         this.infos = new TreeMap();
     }
 
@@ -96,11 +97,11 @@ class Collector {
             }
             else {    
                 // We can assume that the directory supplied follows the rough contours of a node js package maintained with NPM or Yarn
-                FsInspector.processUserDefinedDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos, dependencyInfo);
+                FsInspector.processUserDefinedDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos, dependencyInfo, this.legacyMode);
             }
         }
         else {
-            FsInspector.processDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos);
+            FsInspector.processDirectory(this.project.name, modulesPath, this.project.ignore, topFileInfos, this.legacyMode);
         }
         // Processing the package-lock.json files
         if (this.project.hasPackage) {

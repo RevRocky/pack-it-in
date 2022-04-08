@@ -43,11 +43,11 @@ function main() {
 
     var args = parseArgs(process.argv.slice(2));        // Slice off the node and script name.
     args.config = args.config ? args.config : args.c;   // We don't know whether the user will use the short or long flag.
-
+    const legacyMode = args.legacy || args.l;
     // Load Config
     var config = ConfigHelper.loadConfig(args.config);
 
-    let totalCollector = new Collector();
+    let totalCollector = new Collector(legacyMode);
 
     // Analyse the build tools only if user asks us to...
     if (config.analyseBuildTools) {
